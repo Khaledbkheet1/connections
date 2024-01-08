@@ -41,13 +41,7 @@ const shuffleGame = (game: Game) => {
 const App: React.FC<{ game: Game }> = ({ game }) => {
   const [solvedSets, setSolvedSets] = React.useState<Word["set"][]>([]);
   const [selectedTiles, setSelectedTiles] = React.useState<string[]>([]);
-  const [shuffledGame, setShuffledGame] = React.useState(() =>
-    shuffleGame(game)
-  );
-
-  const handleShuffle = () => {
-    setShuffledGame(shuffleGame(game));
-  };
+  const [shuffled, setShuffled] = React.useState(false);
 
   const handleSelectTile = (word: Word) => {
     if (selectedTiles.includes(word.text)) {
@@ -73,26 +67,46 @@ const App: React.FC<{ game: Game }> = ({ game }) => {
     setSelectedTiles(newSelectedTiles);
   };
 
+  // now divide the game into solved and unsolved sets
+  const gameSets = React.useMemo(() => {
+    const solved = game.filter((word) => solvedSets.includes(word.set));
+    const unSolved = shuffleGame(
+      game.filter((word) => !solvedSets.includes(word.set))
+    );
+
+    return { solved, unSolved };
+    // including the shuffled bool is kind of a cheat to force the game to re-shuffle
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [game, solvedSets, shuffled]);
+
   return (
     <>
       {solvedSets.length === 4 && <h1>You win!</h1>}
       <div className="board">
-        {shuffledGame.map((word) => (
+        {gameSets.solved.map((word) => (
+          <button
+            key={word.text}
+            disabled
+            className={classnames("tile", "solved")}
+          >
+            {word.text}
+          </button>
+        ))}
+
+        {gameSets.unSolved.map((word) => (
           <button
             key={word.text}
             className={classnames(
               "tile",
-              selectedTiles.includes(word.text) ? "selected" : "",
-              solvedSets.includes(word.set) ? "solved" : ""
+              selectedTiles.includes(word.text) ? "selected" : ""
             )}
-            disabled={solvedSets.includes(word.set)}
             onClick={() => handleSelectTile(word)}
           >
             {word.text}
           </button>
         ))}
       </div>
-      <button onClick={handleShuffle}>Shuffle</button>
+      <button onClick={() => setShuffled(!shuffled)}>Shuffle</button>
     </>
   );
 };
