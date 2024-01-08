@@ -81,7 +81,6 @@ const App: React.FC<{ game: Game }> = ({ game }) => {
 
   return (
     <>
-      {solvedSets.length === 4 && <h1>You win!</h1>}
       <div className="board">
         {gameSets.solved.map((word) => (
           <button
@@ -106,7 +105,12 @@ const App: React.FC<{ game: Game }> = ({ game }) => {
           </button>
         ))}
       </div>
-      <button onClick={() => setShuffled(!shuffled)}>Shuffle</button>
+
+      {solvedSets.length === 4 ? (
+        <h1>You win!</h1>
+      ) : (
+        <button onClick={() => setShuffled(!shuffled)}>Shuffle</button>
+      )}
     </>
   );
 };
