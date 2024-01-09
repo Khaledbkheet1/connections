@@ -106,11 +106,15 @@ const App: React.FC<{ game: Game }> = ({ game }) => {
         ))}
       </div>
 
-      {solvedSets.length === 4 ? (
-        <h1>You win!</h1>
-      ) : (
-        <button onClick={() => setShuffled(!shuffled)}>Shuffle</button>
-      )}
+      <footer>
+        {solvedSets.length === 4 ? (
+          <h1>You win!</h1>
+        ) : (
+          <button id="shuffle" onClick={() => setShuffled(!shuffled)}>
+            Shuffle
+          </button>
+        )}
+      </footer>
     </>
   );
 };

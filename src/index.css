@@ -40,3 +40,7 @@ body {
 .selected {
   background-color: red;
 }
+
+footer {
+  text-align: center;
+}
