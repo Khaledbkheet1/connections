@@ -1,6 +1,7 @@
 html {
   box-sizing: border-box;
 }
+
 *,
 *:before,
 *:after {
@@ -16,7 +17,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.board {
+main {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
@@ -34,11 +35,11 @@ body {
 }
 
 .solved {
-  background-color: green;
+  background-color: rgb(43, 165, 80);
 }
 
 .selected {
-  background-color: red;
+  background-color: rgb(138, 138, 138);
 }
 
 footer {
